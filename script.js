@@ -55,7 +55,7 @@ const clearItems = () => {
         }
     }
     checkUI();
-};
+}; 
 
 const filterItems = (e) => {
     const items = itemList.querySelectorAll('li');
