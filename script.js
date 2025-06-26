@@ -4,7 +4,13 @@ const itemList = document.getElementById('item-list');
 const clearButton = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
 
+function displayItems () {
+    const itemsFromStorage = getItemsFromStorage();
 
+    itemsFromStorage.forEach(item => addItemToDOM(item));
+
+    checkUI();
+}
 function onAddItemSubmit(e) {
     e.preventDefault();
     const newItem = itemInput.value; 
@@ -31,19 +37,7 @@ const addItemToDOM = (item) =>{
     itemList.appendChild(li);
 }
 
-const addItemToStorage = (item) => {
-    let itemsFromStorage; 
 
-    if(localStorage.getItem('items') === null){
-        itemsFromStorage = []; 
-    }else {
-        itemsFromStorage = JSON.parse(localStorage.getItem('items'));
-    }
-    //add new items to array
-    itemsFromStorage.push(item);
-    //convert to JSON string and set local storage 
-    localStorage.setItem('items', JSON.stringify(itemsFromStorage));
-}
 
 
 function createButton(classes){
@@ -58,6 +52,26 @@ function createIcon(classes){
     const icon = document.createElement('i');
     icon.className = classes;
     return icon;
+}
+
+const addItemToStorage = (item) => {
+    let itemsFromStorage = getItemsFromStorage();
+    //add new items to array
+    itemsFromStorage.push(item);
+    //convert to JSON string and set local storage 
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+}
+
+function getItemsFromStorage () {
+    let itemsFromStorage; 
+
+    if(localStorage.getItem('items') === null){
+        itemsFromStorage = []; 
+    }else {
+        itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+    }
+
+    return itemsFromStorage;
 }
 
 const removeItem = e => {
@@ -102,12 +116,16 @@ function checkUI() {
     }
 }
 
+//Initialize App: 
 
-// event listeners
+function init(){
 itemform.addEventListener('submit', onAddItemSubmit);
 itemList.addEventListener('click', removeItem);
 clearButton.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems); 
-
+document.addEventListener('DOMContentLoaded', displayItems);
 //this needed for when page initiall loads to prevent filter and buttone showing on innitial load
 checkUI();
+}
+
+init();
