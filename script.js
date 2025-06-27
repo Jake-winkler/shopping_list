@@ -74,20 +74,43 @@ function getItemsFromStorage () {
     return itemsFromStorage;
 }
 
-const removeItem = e => {
-    if(e.target.parentElement.classList.contains('remove-item')){;
-        if(confirm('Are you sure?')){
-        e.target.parentElement.parentElement.remove();
-        }
+const onClickItem = (e) =>{
+     if(e.target.parentElement.classList.contains('remove-item')){
+        removeItem(e.target.parentElement.parentElement); 
+     }
+}
+
+const removeItem = item => {
+    if(confirm('are you sure')){
+        item.remove();
+
+        //remove from storage: 
+        removeItemFromStorage(item.textContent);
+
+        checkUI();
     }
-    checkUI();
+
 } 
+
+function removeItemFromStorage(item){
+    let itemsFromStorage = getItemsFromStorage();
+
+    //filter out items to be removed
+    itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
+
+
+    localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+
+}
 
 const clearItems = () => {
     while (itemList.firstChild){
-        if(confirm('Are you sure?')){
         itemList.removeChild(itemList.firstChild);
-        }
+        
+        //clear from local storage
+
+        localStorage.removeItem('items')
+
     }
     checkUI();
 }; 
@@ -120,7 +143,7 @@ function checkUI() {
 
 function init(){
 itemform.addEventListener('submit', onAddItemSubmit);
-itemList.addEventListener('click', removeItem);
+itemList.addEventListener('click', onClickItem);
 clearButton.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems); 
 document.addEventListener('DOMContentLoaded', displayItems);
