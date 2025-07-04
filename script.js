@@ -57,8 +57,7 @@ const addItemToDOM = (item) =>{
     const button = createButton('remove-item btn-link text-red');
     li.appendChild(button);
     //add LI to dom
-    itemList.insertBefore(li,clearButton);
-    
+    itemList.appendChild(li);    
 }
 
 
@@ -99,11 +98,13 @@ function getItemsFromStorage () {
 }
 
 const onClickItem = (e) => {
-     if (e.target.parentElement.classList.contains('remove-item')){
-        removeItem(e.target.parentElement.parentElement);
-     } else{
-        setItemToEdit(e.target);
-     }
+   const listItem = e.target.closest('li')
+   if(!listItem)return; 
+   if(e.target.closest('.remove-item')){
+    removeItem(listItem);
+   } else {
+    setItemToEdit(listItem);
+   }
 }
 
 function checkIfItemExists (item){
