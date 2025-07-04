@@ -35,6 +35,7 @@ const addItemToDOM = (item) =>{
     li.appendChild(button);
     //add LI to dom
     itemList.appendChild(li);
+    
 }
 
 
@@ -55,7 +56,7 @@ function createIcon(classes){
 }
 
 const addItemToStorage = (item) => {
-    let itemsFromStorage = getItemsFromStorage();
+    const itemsFromStorage = getItemsFromStorage();
     //add new items to array
     itemsFromStorage.push(item);
     //convert to JSON string and set local storage 
@@ -74,15 +75,17 @@ function getItemsFromStorage () {
     return itemsFromStorage;
 }
 
-const onClickItem = (e) =>{
-     if(e.target.parentElement.classList.contains('remove-item')){
-        removeItem(e.target.parentElement.parentElement); 
+const onClickItem = (e) => {
+     if (e.target.parentElement.classList.contains('remove-item')){
+        removeItem(e.target.parentElement.parentElement);
      }
 }
 
 const removeItem = item => {
+
     if(confirm('are you sure')){
         item.remove();
+
 
         //remove from storage: 
         removeItemFromStorage(item.textContent);
@@ -97,9 +100,10 @@ function removeItemFromStorage(item){
 
     //filter out items to be removed
     itemsFromStorage = itemsFromStorage.filter((i) => i !== item);
-
+ 
 
     localStorage.setItem('items', JSON.stringify(itemsFromStorage));
+
 
 }
 
@@ -109,10 +113,11 @@ const clearItems = () => {
         
         //clear from local storage
 
-        localStorage.removeItem('items')
+        localStorage.removeItem('items');
 
+        checkUI();
     }
-    checkUI();
+    
 }; 
 
 const filterItems = (e) => {
@@ -125,7 +130,6 @@ const filterItems = (e) => {
     }else{
         item.style.display = 'none';
     }})
-
 }
 
 function checkUI() {
