@@ -34,7 +34,7 @@ const addItemToDOM = (item) =>{
     const button = createButton('remove-item btn-link text-red');
     li.appendChild(button);
     //add LI to dom
-    itemList.appendChild(li);
+    itemList.insertBefore(li, clearButton);
     
 }
 
