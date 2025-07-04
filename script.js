@@ -32,6 +32,11 @@ function onAddItemSubmit(e) {
             itemToEdit.remove();
             isEditMode = false;
 
+        }else{
+            if(checkIfItemExists(newItem)){
+                alert('That Item Alread Exists');
+                return;
+            }
         }
 
 
@@ -99,6 +104,11 @@ const onClickItem = (e) => {
      } else{
         setItemToEdit(e.target);
      }
+}
+
+function checkIfItemExists (item){
+  const itemsFromStorage = getItemsFromStorage(); 
+  return itemsFromStorage.includes(item);
 }
 
 function checkIfItemExists(item) {
